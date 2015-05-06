@@ -94,6 +94,13 @@ Support
 
 If you're having any problem, please [raise an issue](https://github.com/resin-io/resin-image/issues/new) on GitHub.
 
+ChangeLog
+---------
+
+### v1.1.0
+
+- Add device unmounting functionality.
+
 License
 -------
 
