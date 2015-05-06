@@ -25,8 +25,6 @@ Write an image to a device.
 
 The callback gets passed a single argument: a possible error.
 
-**Notice:** You might need to unmount the device before attempting this operation or you might get an `EBUSY` error.
-
 **Notice:** You might need admin privileges to run this operation or you might get an `EACCES` error.
 
 Example:

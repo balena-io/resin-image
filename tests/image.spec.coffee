@@ -1,6 +1,9 @@
 _ = require('lodash')
 chai = require('chai')
+sinon = require('sinon')
+chai.use(require('sinon-chai'))
 expect = chai.expect
+umount = require('umount')
 errors = require('resin-errors')
 image = require('../lib/image')
 
@@ -56,3 +59,39 @@ describe 'Image:', ->
 			expect ->
 				image.write({ image: 'foo', device: 'bar' }, [ _.noop ])
 			.to.throw(errors.ResinInvalidParameter)
+
+		describe 'given umount throws an error', ->
+
+			beforeEach ->
+				@umountStub = sinon.stub(umount, 'umount')
+				@umountStub.yields(new Error('umount error'))
+
+			afterEach ->
+				@umountStub.restore()
+
+			it 'should return an error', (done) ->
+				image.write
+					image: 'foo'
+					device: 'bar'
+				, (error) ->
+					expect(error).to.be.an.instanceof(Error)
+					expect(error.message).to.equal('umount error')
+					done()
+
+		describe 'given umount prints to stderr', ->
+
+			beforeEach ->
+				@umountStub = sinon.stub(umount, 'umount')
+				@umountStub.yields(null, 'stderr', '')
+
+			afterEach ->
+				@umountStub.restore()
+
+			it 'should return an error', (done) ->
+				image.write
+					image: 'foo'
+					device: 'bar'
+				, (error) ->
+					expect(error).to.be.an.instanceof(Error)
+					expect(error.message).to.equal('stderr')
+					done()
