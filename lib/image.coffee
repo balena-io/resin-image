@@ -1,5 +1,6 @@
 _ = require('lodash')
 errors = require('resin-errors')
+umount = require('umount')
 utils = require('./utils')
 
 ###*
@@ -48,4 +49,10 @@ exports.write = (options, callback) ->
 	if not _.isFunction(callback)
 		throw new errors.ResinInvalidParameter('callback', callback, 'not a function')
 
-	utils.writeWithProgress(options.image, options.device, options.progress, callback)
+	umount.umount options.device, (error, stderr) ->
+		return callback(error) if error?
+
+		if not _.isEmpty(stderr)
+			return callback(new Error(stderr))
+
+		utils.writeWithProgress(options.image, options.device, options.progress, callback)

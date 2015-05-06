@@ -1,8 +1,10 @@
-var errors, utils, _;
+var errors, umount, utils, _;
 
 _ = require('lodash');
 
 errors = require('resin-errors');
+
+umount = require('umount');
 
 utils = require('./utils');
 
@@ -53,5 +55,13 @@ exports.write = function(options, callback) {
   if (!_.isFunction(callback)) {
     throw new errors.ResinInvalidParameter('callback', callback, 'not a function');
   }
-  return utils.writeWithProgress(options.image, options.device, options.progress, callback);
+  return umount.umount(options.device, function(error, stderr) {
+    if (error != null) {
+      return callback(error);
+    }
+    if (!_.isEmpty(stderr)) {
+      return callback(new Error(stderr));
+    }
+    return utils.writeWithProgress(options.image, options.device, options.progress, callback);
+  });
 };
