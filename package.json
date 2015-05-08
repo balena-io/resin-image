@@ -39,6 +39,6 @@
     "lodash": "^3.6.0",
     "progress-stream": "^1.1.0",
     "resin-errors": "^1.0.2",
-    "umount": "^1.0.0"
+    "umount": "^1.0.1"
   }
 }
