@@ -82,7 +82,7 @@ describe 'Image:', ->
 
 			beforeEach ->
 				@umountStub = sinon.stub(umount, 'umount')
-				@umountStub.yields(null, 'stderr', '')
+				@umountStub.yields(null, '', 'stderr')
 
 			afterEach ->
 				@umountStub.restore()

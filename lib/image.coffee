@@ -49,7 +49,7 @@ exports.write = (options, callback) ->
 	if not _.isFunction(callback)
 		throw new errors.ResinInvalidParameter('callback', callback, 'not a function')
 
-	umount.umount options.device, (error, stderr) ->
+	umount.umount options.device, (error, stdout, stderr) ->
 		return callback(error) if error?
 
 		if not _.isEmpty(stderr)

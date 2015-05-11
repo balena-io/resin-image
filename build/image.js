@@ -55,7 +55,7 @@ exports.write = function(options, callback) {
   if (!_.isFunction(callback)) {
     throw new errors.ResinInvalidParameter('callback', callback, 'not a function');
   }
-  return umount.umount(options.device, function(error, stderr) {
+  return umount.umount(options.device, function(error, stdout, stderr) {
     if (error != null) {
       return callback(error);
     }
