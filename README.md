@@ -97,6 +97,10 @@ If you're having any problem, please [raise an issue](https://github.com/resin-i
 ChangeLog
 ---------
 
+### v1.1.2
+
+- Only unmount mounted devices.
+
 ### v1.1.1
 
 - Fix improper unmounting of multiple partitions in GNU/Linux.
