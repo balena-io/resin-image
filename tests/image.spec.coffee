@@ -60,38 +60,47 @@ describe 'Image:', ->
 				image.write({ image: 'foo', device: 'bar' }, [ _.noop ])
 			.to.throw(errors.ResinInvalidParameter)
 
-		describe 'given umount throws an error', ->
+		describe 'given umount.isMounted() returns true', ->
 
 			beforeEach ->
-				@umountStub = sinon.stub(umount, 'umount')
-				@umountStub.yields(new Error('umount error'))
+				@isMountedStub = sinon.stub(umount, 'isMounted')
+				@isMountedStub.yields(null, true)
 
 			afterEach ->
-				@umountStub.restore()
+				@isMountedStub.restore()
 
-			it 'should return an error', (done) ->
-				image.write
-					image: 'foo'
-					device: 'bar'
-				, (error) ->
-					expect(error).to.be.an.instanceof(Error)
-					expect(error.message).to.equal('umount error')
-					done()
+			describe 'given umount throws an error', ->
 
-		describe 'given umount prints to stderr', ->
+				beforeEach ->
+					@umountStub = sinon.stub(umount, 'umount')
+					@umountStub.yields(new Error('umount error'))
 
-			beforeEach ->
-				@umountStub = sinon.stub(umount, 'umount')
-				@umountStub.yields(null, '', 'stderr')
+				afterEach ->
+					@umountStub.restore()
 
-			afterEach ->
-				@umountStub.restore()
+				it 'should return an error', (done) ->
+					image.write
+						image: 'foo'
+						device: 'bar'
+					, (error) ->
+						expect(error).to.be.an.instanceof(Error)
+						expect(error.message).to.equal('umount error')
+						done()
 
-			it 'should return an error', (done) ->
-				image.write
-					image: 'foo'
-					device: 'bar'
-				, (error) ->
-					expect(error).to.be.an.instanceof(Error)
-					expect(error.message).to.equal('stderr')
-					done()
+			describe 'given umount prints to stderr', ->
+
+				beforeEach ->
+					@umountStub = sinon.stub(umount, 'umount')
+					@umountStub.yields(null, '', 'stderr')
+
+				afterEach ->
+					@umountStub.restore()
+
+				it 'should return an error', (done) ->
+					image.write
+						image: 'foo'
+						device: 'bar'
+					, (error) ->
+						expect(error).to.be.an.instanceof(Error)
+						expect(error.message).to.equal('stderr')
+						done()

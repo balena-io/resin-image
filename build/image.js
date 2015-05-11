@@ -1,4 +1,6 @@
-var errors, umount, utils, _;
+var async, errors, umount, utils, _;
+
+async = require('async');
 
 _ = require('lodash');
 
@@ -55,13 +57,19 @@ exports.write = function(options, callback) {
   if (!_.isFunction(callback)) {
     throw new errors.ResinInvalidParameter('callback', callback, 'not a function');
   }
-  return umount.umount(options.device, function(error, stdout, stderr) {
-    if (error != null) {
-      return callback(error);
+  return async.waterfall([
+    function(callback) {
+      return umount.isMounted(options.device, callback);
+    }, function(isMounted, callback) {
+      if (!isMounted) {
+        return callback(null, null, null);
+      }
+      return umount.umount(options.device, callback);
+    }, function(stdout, stderr, callback) {
+      if (!_.isEmpty(stderr)) {
+        return callback(new Error(stderr));
+      }
+      return utils.writeWithProgress(options.image, options.device, options.progress, callback);
     }
-    if (!_.isEmpty(stderr)) {
-      return callback(new Error(stderr));
-    }
-    return utils.writeWithProgress(options.image, options.device, options.progress, callback);
-  });
+  ], callback);
 };

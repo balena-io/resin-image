@@ -1,3 +1,4 @@
+async = require('async')
 _ = require('lodash')
 errors = require('resin-errors')
 umount = require('umount')
@@ -49,10 +50,21 @@ exports.write = (options, callback) ->
 	if not _.isFunction(callback)
 		throw new errors.ResinInvalidParameter('callback', callback, 'not a function')
 
-	umount.umount options.device, (error, stdout, stderr) ->
-		return callback(error) if error?
+	async.waterfall([
 
-		if not _.isEmpty(stderr)
-			return callback(new Error(stderr))
+		(callback) ->
+			umount.isMounted(options.device, callback)
 
-		utils.writeWithProgress(options.image, options.device, options.progress, callback)
+		(isMounted, callback) ->
+			if not isMounted
+				return callback(null, null, null)
+
+			umount.umount(options.device, callback)
+
+		(stdout, stderr, callback) ->
+			if not _.isEmpty(stderr)
+				return callback(new Error(stderr))
+
+			utils.writeWithProgress(options.image, options.device, options.progress, callback)
+
+	], callback)
