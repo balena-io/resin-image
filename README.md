@@ -97,6 +97,10 @@ If you're having any problem, please [raise an issue](https://github.com/resin-i
 ChangeLog
 ---------
 
+### v1.1.3
+
+- Upgrade `umount` to v1.1.1, which contains fixes for Linux.
+
 ### v1.1.2
 
 - Only unmount mounted devices.
