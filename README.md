@@ -4,6 +4,7 @@ resin-image
 [![npm version](https://badge.fury.io/js/resin-image.svg)](http://badge.fury.io/js/resin-image)
 [![dependencies](https://david-dm.org/resin-io/resin-image.png)](https://david-dm.org/resin-io/resin-image.png)
 [![Build Status](https://travis-ci.org/resin-io/resin-image.svg?branch=master)](https://travis-ci.org/resin-io/resin-image)
+[![Build status](https://ci.appveyor.com/api/projects/status/gdjaxpmoeud54x6c?svg=true)](https://ci.appveyor.com/project/jviotti/resin-image)
 
 Resin.io image utilities.
 
