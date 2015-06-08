@@ -67,4 +67,10 @@ exports.write = (options, callback) ->
 
 			utils.writeWithProgress(options.image, options.device, options.progress, callback)
 
+		(callback) ->
+
+			# People expect to be able to eject the disk
+			# right after writing, therefore we unmount for them
+			umount.umount(options.device, callback)
+
 	], callback)

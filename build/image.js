@@ -70,6 +70,8 @@ exports.write = function(options, callback) {
         return callback(new Error(stderr));
       }
       return utils.writeWithProgress(options.image, options.device, options.progress, callback);
+    }, function(callback) {
+      return umount.umount(options.device, callback);
     }
   ], callback);
 };
