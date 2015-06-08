@@ -1,6 +1,6 @@
 {
   "name": "resin-image",
-  "version": "1.1.3",
+  "version": "1.1.4",
   "description": "Resin.io image utilities",
   "main": "build/image.js",
   "homepage": "https://github.com/resin-io/resin-image",
