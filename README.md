@@ -6,6 +6,8 @@ resin-image
 [![Build Status](https://travis-ci.org/resin-io/resin-image.svg?branch=master)](https://travis-ci.org/resin-io/resin-image)
 [![Build status](https://ci.appveyor.com/api/projects/status/gdjaxpmoeud54x6c?svg=true)](https://ci.appveyor.com/project/jviotti/resin-image)
 
+**DEPRECATED in favor of https://github.com/resin-io/resin-image-write**
+
 Resin.io image utilities.
 
 Installation
